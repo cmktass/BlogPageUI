@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,6 +28,8 @@ namespace BlogPageMvc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient<ICategoryService, CategoryService>();
+            services.AddHttpClient<ITagService, TagService>();
+            services.AddHttpClient<IBlogService, BlogService>();
             services.AddControllersWithViews();
         }
 
@@ -43,6 +47,10 @@ namespace BlogPageMvc
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+            app.UseStaticFiles(new StaticFileOptions() { 
+               FileProvider=new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(),"node_modules")),
+               RequestPath="/content"
+            });
             app.UseStaticFiles();
 
             app.UseRouting();

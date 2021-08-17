@@ -1,0 +1,74 @@
+﻿@model BlogPageMvc.Models.User.RegisterModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Register</title>
+    <link href="~/content/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+   
+
+</head>
+<body>
+    <div class="container mt-5">
+        <div id="legend">
+            <h2 class="font-weight-bold">Create Account</h2>
+            <hr />  
+            <br />
+        </div>
+        <form method="post" asp-action="register">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Ad</label>
+                <input type="text" class="form-control" placeholder="İsiminiz" asp-for="FirstName">
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Soyad</label>
+                <input type="text" class="form-control" placeholder="Soyisminiz" asp-for="LastName">
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email</label>
+                <input type="email" class="form-control" placeholder="Email Adresiniz" asp-for="Email">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Şifre</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Şifrenizi Giriniz" asp-for="Password">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Şifre Tekrarı</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Şifre Tekrar Giriniz" asp-for="ConfirmPassword">
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Gsm</label>
+                <input type="number" class="form-control" placeholder="Telefon" asp-for="Gsm">
+                <span asp-validation-for="Gsm" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Meslek</label>
+                <select class="custom-select" required asp-for="Job">
+                    <option value="">Meslek Seç</option>
+                    <option value="Yazılım">Yazılım</option>
+                    <option value="Teknoloji">Teknoloji</option>
+                </select>
+                <span asp-validation-for="Job" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-outline-success btn-lg justify-content-between">Gönder</button>
+        </form>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    <script src="C:\Users\cmktass\Desktop\BlogPageMvc\BlogPageDesign\BlogPageMvc\node_modules\jquery-validate\dist\validate.min.js"></script>
+    <script src="C:\Users\cmktass\Desktop\BlogPageMvc\BlogPageDesign\BlogPageMvc\node_modules\jquery-validation\dist\jquery.validate.min.js"></script>
+    <script src="C:\Users\cmktass\Desktop\BlogPageMvc\BlogPageDesign\BlogPageMvc\node_modules\jquery\dist\jquery.min.js"></script>
+    <script src="C:\Users\cmktass\Desktop\BlogPageMvc\BlogPageDesign\BlogPageMvc\node_modules\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>

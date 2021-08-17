@@ -14,11 +14,11 @@
     <!-- Responsive navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#!">CemAktaş</a>
+            <a class="navbar-brand" href="/">CemAktaş</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="#">Anasayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/blog">Anasayfa</a></li>
                     <li class="nav-item"><a class="nav-link" href="#!">Hakkımda</a></li>
                     <li class="nav-item"><a class="nav-link" href="#!">Özgeçmiş</a></li>
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Blog</a></li>
@@ -29,7 +29,6 @@
     <!-- Page content-->
     <div class="container mt-5" >
         <div class="row">
-          
             <div class="col-md-3">
                 <!-- Search widget-->
                 <div class="card mb-4">
@@ -41,39 +40,12 @@
                         </div>
                     </div>
                 </div>
-                <!-- Categories widget-->
-              
+                
                 @await Component.InvokeAsync("CategoriesVC")
-                <div class="card mb-4">
-                    <div class="card-header font-weight-bold">Tag</div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <ul class="list-unstyled mb-0">
-                                    <li><a href="#!">Yazılım</a></li>
-                                    <li><a href="#!">HTML</a></li>
-                                    <li><a href="#!">Freebies</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-sm-6">
-                                <ul class="list-unstyled mb-0">
-                                    <li><a href="#!">JavaScript</a></li>
-                                    <li><a href="#!">CSS</a></li>
-                                    <li><a href="#!">Tutorials</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Side widget-->
 
-                <div class="card-header font-weight-bold">En Çok Tıklanan Yazılar</div>
-                <ul class="list-group">
-                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                    <li class="list-group-item">Morbi leo risus</li>
-                    <li class="list-group-item">Porta ac consectetur ac</li>
-                    <li class="list-group-item">Vestibulum at eros</li>
-                </ul>
+                @await Component.InvokeAsync("TagVC")
+               
+                @await Component.InvokeAsync("MostPopularVC")
 
             </div>
 

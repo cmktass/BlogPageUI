@@ -1,4 +1,5 @@
 ﻿using BlogPageMvc.Models.Category;
+using BlogPageMvc.Models.Tag;
 using BlogPageMvc.Service.Interface;
 using Newtonsoft.Json;
 using System;
@@ -11,18 +12,17 @@ namespace BlogPageMvc.Service.Concrete
 {
     public class CategoryService : ICategoryService
     {
-        private HttpClient _httpClient;
+        private readonly HttpClient  _httpClient;
         public CategoryService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            //_httpClient.BaseAddress = new Uri(StringInfo.UrlInfo.BaseUrl + "/api/Category/GetAllCategory");
+            _httpClient.BaseAddress = new Uri(StringInfo.UrlInfo.BaseUrl + "/api/Category/GetAllCategory");
         }
+      
         public async Task<List<CategoriesWithBlogCounts>> GetCategories()
         {
-            var responseMessage =await _httpClient.GetAsync("https://localhost:44368/api/Category/GetAllCategory");
+            var responseMessage = await _httpClient.GetAsync("");
             return JsonConvert.DeserializeObject<List<CategoriesWithBlogCounts>>(await responseMessage.Content.ReadAsStringAsync());
-
-            
         }
     }
 }

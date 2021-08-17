@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BlogPageMvc.Service.Interface;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,31 @@ namespace BlogPageMvc.Controllers
 {
     public class BlogController : Controller
     {
-        public IActionResult Index()
+
+        private IBlogService _blogService;
+        public BlogController(IBlogService blogService)
         {
-            return View();
+            _blogService = blogService;
         }
+        public async Task<IActionResult> IndexAsync(string category)
+        {
+            if (string.IsNullOrEmpty(category))
+            {
+                return View(await _blogService.GetAllPost());
+            }
+            else
+            {
+                return View(await _blogService.GetBlogsByCategoryName(category));
+            }
+            
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Detail(string title)
+        {
+            return View(await _blogService.GetPostByName(title));
+        }
+
+
     }
 }
