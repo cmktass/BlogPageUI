@@ -23,6 +23,7 @@ namespace BlogPageMvc.Controllers
             }
             else
             {
+                ViewBag.ActiveCategory = category;
                 return View(await _blogService.GetBlogsByCategoryName(category));
             }
             

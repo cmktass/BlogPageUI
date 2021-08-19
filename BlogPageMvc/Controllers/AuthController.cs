@@ -1,4 +1,5 @@
 ﻿using BlogPageMvc.Models.User;
+using BlogPageMvc.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -7,11 +8,13 @@ using System.Threading.Tasks;
 
 namespace BlogPageMvc.Controllers
 {
+    [Route("[action]")]
     public class AuthController : Controller
     {
-        public AuthController()
+        private readonly IAuthService _authService;
+        public AuthController(IAuthService authService)
         {
-
+            _authService = authService;
         }
 
         [HttpGet]
@@ -20,9 +23,21 @@ namespace BlogPageMvc.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Login(string ad)
+        public async Task<IActionResult> Login(UserSignInVM user)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                var response = await _authService.SignIn(user);
+                if (response.ErrorMessage != null)
+                {
+                    ModelState.AddModelError("hatalı", response.ErrorMessage);
+                }
+                else
+                {
+                    return RedirectToAction("", "admin");
+                }
+            }
+            return View(user);
         }
         [HttpGet]
         public IActionResult Register()

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace BlogPageMvc.Service.Concrete
@@ -23,6 +24,18 @@ namespace BlogPageMvc.Service.Concrete
         {
             var responseMessage = await _httpClient.GetAsync("");
             return JsonConvert.DeserializeObject<List<CategoriesWithBlogCounts>>(await responseMessage.Content.ReadAsStringAsync());
+        }
+
+        public async Task<int> AddCategory(CategoryVM categoryVM)
+        {
+            var json = JsonConvert.SerializeObject(categoryVM);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var responseMessage = await _httpClient.PostAsync("", data);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+
+            }
+            return 5;
         }
     }
 }
