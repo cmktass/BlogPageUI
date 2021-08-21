@@ -31,6 +31,30 @@ namespace BlogPageMvc.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CategoryVM category)
         {
+            var response = await _categoryService.AddCategory(category);
+            if (response != null)
+            {
+                if (string.IsNullOrEmpty(response.ErrorMessage))
+                {
+                    return RedirectToAction("Categories");
+                }
+                else
+                {
+                    ModelState.AddModelError("hatalı", response.ErrorMessage);
+                    return View(category);
+                }
+            }
+            return View();
+        }
+        [HttpGet]
+        public async Task<IActionResult> Update(string category)
+        {
+            var a = await _categoryService.GetCategoryByName(category);
+            return View(a.Data);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Update(CategoryVM categoryVM)
+        {
             return View();
         }
     }

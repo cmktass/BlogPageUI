@@ -1,6 +1,8 @@
-﻿using BlogPageMvc.Models.Category;
+﻿using BlogPageMvc.Models;
+using BlogPageMvc.Models.Category;
 using BlogPageMvc.Models.Tag;
 using BlogPageMvc.Service.Interface;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,28 +16,52 @@ namespace BlogPageMvc.Service.Concrete
     public class CategoryService : ICategoryService
     {
         private readonly HttpClient  _httpClient;
-        public CategoryService(HttpClient httpClient)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public CategoryService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri(StringInfo.UrlInfo.BaseUrl + "/api/Category/GetAllCategory");
+            _httpContextAccessor = httpContextAccessor;
+            _httpClient.BaseAddress = new Uri(StringInfo.UrlInfo.BaseUrl + "/api/Category/");
         }
       
         public async Task<List<CategoriesWithBlogCounts>> GetCategories()
         {
-            var responseMessage = await _httpClient.GetAsync("");
+            var responseMessage = await _httpClient.GetAsync("GetAllCategory");
             return JsonConvert.DeserializeObject<List<CategoriesWithBlogCounts>>(await responseMessage.Content.ReadAsStringAsync());
         }
-
-        public async Task<int> AddCategory(CategoryVM categoryVM)
+        public async Task<List<CategoriesWithBlogCounts>> GetCategoryById(int id)
+        {
+            var responseMessage = await _httpClient.GetAsync($"GetCategoryById/{id}");
+            return JsonConvert.DeserializeObject<List<CategoriesWithBlogCounts>>(await responseMessage.Content.ReadAsStringAsync());
+        }
+        public async Task<GenericResponse<CategoryVM>> GetCategoryByName(string name)
+        {
+            var responseMessage = await _httpClient.GetAsync($"GetCategoryByName/name?name={name}");
+            return JsonConvert.DeserializeObject<GenericResponse<CategoryVM>>(await responseMessage.Content.ReadAsStringAsync());
+        }
+        public async Task<GenericResponse<CategoryVM>> AddCategory(CategoryVM categoryVM)
         {
             var json = JsonConvert.SerializeObject(categoryVM);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
-            var responseMessage = await _httpClient.PostAsync("", data);
+            CreateAuthenticationHeader.CreateHttpClientHeader(_httpClient, _httpContextAccessor);
+            var responseMessage = await _httpClient.PostAsync("AddCategory", data);
             if (responseMessage.IsSuccessStatusCode)
             {
-
+                return JsonConvert.DeserializeObject<GenericResponse<CategoryVM>>(await responseMessage.Content.ReadAsStringAsync());
             }
-            return 5;
+            return null;
+        }
+        public async Task<GenericResponse<CategoryVM>> UpdateCategory(CategoryVM categoryVM)
+        {
+            var json = JsonConvert.SerializeObject(categoryVM);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            CreateAuthenticationHeader.CreateHttpClientHeader(_httpClient, _httpContextAccessor);
+            var responseMessage = await _httpClient.PutAsync("", data);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<GenericResponse<CategoryVM>>(await responseMessage.Content.ReadAsStringAsync());
+            }
+            return null;
         }
     }
 }
