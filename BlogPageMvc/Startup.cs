@@ -32,6 +32,7 @@ namespace BlogPageMvc
             services.AddHttpClient<IAuthService, AuthService>();
             services.AddHttpClient<ICategoryService, CategoryService>();
             services.AddHttpClient<ITagService, TagService>();
+            services.AddHttpClient<IAdminService, AdminService>();
             services.AddHttpClient<IBlogService, BlogService>();
             services.AddControllersWithViews();
         }

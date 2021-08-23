@@ -56,10 +56,20 @@ namespace BlogPageMvc.Service.Concrete
             var json = JsonConvert.SerializeObject(categoryVM);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             CreateAuthenticationHeader.CreateHttpClientHeader(_httpClient, _httpContextAccessor);
-            var responseMessage = await _httpClient.PutAsync("", data);
+            var responseMessage = await _httpClient.PutAsync("UpdateCategory", data);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return JsonConvert.DeserializeObject<GenericResponse<CategoryVM>>(await responseMessage.Content.ReadAsStringAsync());
+            }
+            return null;
+        }
+        public async Task<GenericResponse<int>> DeleteCategory(int id)
+        { 
+            CreateAuthenticationHeader.CreateHttpClientHeader(_httpClient, _httpContextAccessor);
+            var responseMessage = await _httpClient.DeleteAsync($"DeleteCategory/id?id={id}");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<GenericResponse<int>>(await responseMessage.Content.ReadAsStringAsync());
             }
             return null;
         }

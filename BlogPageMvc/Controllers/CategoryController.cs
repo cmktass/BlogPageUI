@@ -31,31 +31,70 @@ namespace BlogPageMvc.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CategoryVM category)
         {
-            var response = await _categoryService.AddCategory(category);
-            if (response != null)
+            if (ModelState.IsValid)
             {
+                var response = await _categoryService.AddCategory(category);
+                if (response != null)
+                {
+                    if (string.IsNullOrEmpty(response.ErrorMessage))
+                    {
+                        return RedirectToAction("Categories");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("hatalı", response.ErrorMessage);
+                        return View(category);
+                    }
+                }
+            }
+            return View(category);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Update(string category)
+        {
+            var response = await _categoryService.GetCategoryByName(category);
+            return View(response.Data);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Update(CategoryVM categoryVM)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _categoryService.UpdateCategory(categoryVM);
                 if (string.IsNullOrEmpty(response.ErrorMessage))
                 {
                     return RedirectToAction("Categories");
                 }
                 else
                 {
-                    ModelState.AddModelError("hatalı", response.ErrorMessage);
-                    return View(category);
+                    ModelState.AddModelError("", response.ErrorMessage);
+                    return View(categoryVM);
                 }
             }
-            return View();
+            return View(categoryVM);
+            
         }
         [HttpGet]
-        public async Task<IActionResult> Update(string category)
+        public async Task<IActionResult> Delete(string category)
         {
-            var a = await _categoryService.GetCategoryByName(category);
-            return View(a.Data);
+            var response = await _categoryService.GetCategoryByName(category);
+            return View(response.Data);
         }
+
         [HttpPost]
-        public async Task<IActionResult> Update(CategoryVM categoryVM)
+        public async Task<IActionResult> Delete(int id)
         {
-            return View();
+            var response = await _categoryService.DeleteCategory(id);
+            if (string.IsNullOrEmpty(response.ErrorMessage))
+            {
+                return RedirectToAction("Categories");
+            }
+            else
+            {
+                ModelState.AddModelError("", response.ErrorMessage);
+                return View();
+            }
+            
         }
     }
 }

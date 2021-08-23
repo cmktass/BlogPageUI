@@ -12,5 +12,7 @@ namespace BlogPageMvc.Service.Interface
         Task<List<CategoriesWithBlogCounts>> GetCategories();
         Task<GenericResponse<CategoryVM>> AddCategory(CategoryVM categoryVM);
         Task<GenericResponse<CategoryVM>> GetCategoryByName(string name);
+        Task<GenericResponse<CategoryVM>> UpdateCategory(CategoryVM categoryVM);
+        Task<GenericResponse<int>> DeleteCategory(int id);
     }
 }

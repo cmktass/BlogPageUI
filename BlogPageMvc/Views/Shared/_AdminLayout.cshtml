@@ -55,8 +55,24 @@
             <div class="sidebar-heading">
                 Interface
             </div>
-            
+
             <!-- Nav Item - Pages Collapse Menu -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-toggle="collapse" data-target="#Controller"
+                   aria-expanded="true" aria-controls="Controller">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Contoller</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" >Contoller Listele</a>
+                        <a class="collapse-item" asp-controller="admin" asp-action="addcontroller">Contoller  Ekle</a>
+                    </div>
+                </div>
+            </li>
+
+
             <li class="nav-item">
                 <a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
                    aria-expanded="true" aria-controls="collapseTwo">
@@ -91,9 +107,6 @@
             <hr class="sidebar-divider">
 
             <!-- Heading -->
-            
-
-           
             <!-- Nav Item - Charts -->
             <li class="nav-item">
                 <a class="nav-link" href="charts.html">
@@ -118,7 +131,7 @@
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
 
-           
+
 
         </ul>
         <!-- End of Sidebar -->
