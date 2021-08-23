@@ -23,11 +23,6 @@ namespace BlogPageMvc.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> PostsAsync()
-        {
-            return View(await _blogService.GetAllPost());
-        }
-        [HttpGet]
         public async Task<IActionResult> GetAllController()
         {
             return View(await _adminService.GetControllers());
@@ -57,6 +52,53 @@ namespace BlogPageMvc.Controllers
             return View(controllerVM);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> UpdateController(string controllername)
+        {
+            var a = await _adminService.GetControllerByName(controllername);
+            return View(a.Data);
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateController(ControllerVM controllerVM)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _adminService.UpdateController(controllerVM);
+                if (!string.IsNullOrEmpty(response.ErrorMessage))
+                {
+                    ModelState.AddModelError("hata", response.ErrorMessage);
+                    return View(controllerVM);
+                }
+                else
+                {
+                    return RedirectToAction("getallcontroller","admin");
+                }
+            }
+            return View(controllerVM);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteController(string controllername)
+        {
+            var data = await _adminService.GetControllerByName(controllername);
+            return View(data.Data);
+        }
+
+        public async Task<IActionResult> DeleteController(int id)
+        {
+            var data = await _adminService.DeleteController(id);
+            if (data.ErrorMessage == null)
+            {
+                return RedirectToAction("getallcontroller", "admin");
+            }
+            return View();
+        }
+
+        public async Task<IActionResult> ControllerDetail(int id)
+        {
+          
+            return View();
+        }
     }
 }

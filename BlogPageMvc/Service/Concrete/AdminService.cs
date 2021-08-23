@@ -42,5 +42,33 @@ namespace BlogPageMvc.Service.Concrete
             }
             return null;
         }
+        public async Task<GenericResponse<ControllerVM>> GetControllerByName(string name)
+        {
+            var responseMessage = await _httpClient.GetAsync($"GetControllerByName/name?name={name}");
+            return JsonConvert.DeserializeObject<GenericResponse<ControllerVM>>(await responseMessage.Content.ReadAsStringAsync());
+        }
+
+        public async Task<GenericResponse<ControllerVM>> UpdateController(ControllerVM controllerVM)
+        {
+            var json = JsonConvert.SerializeObject(controllerVM);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            //CreateAuthenticationHeader.CreateHttpClientHeader(_httpClient, _httpContextAccessor);
+            var responseMessage = await _httpClient.PutAsync("UpdateController", data);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<GenericResponse<ControllerVM>>(await responseMessage.Content.ReadAsStringAsync());
+            }
+            return null;
+        }
+        public async Task<GenericResponse<int>> DeleteController(int id)
+        {
+            //CreateAuthenticationHeader.CreateHttpClientHeader(_httpClient, _httpContextAccessor);
+            var responseMessage = await _httpClient.DeleteAsync($"DeleteController/id?id={id}");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<GenericResponse<int>>(await responseMessage.Content.ReadAsStringAsync());
+            }
+            return null;
+        }
     }
 }

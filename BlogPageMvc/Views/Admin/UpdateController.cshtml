@@ -1,0 +1,34 @@
+﻿@model BlogPageMvc.Models.Controller.ControllerVM
+
+@{
+    ViewData["Title"] = "UpdateController";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container">
+    <h1>UpdateController</h1>
+
+    <h4>ControllerVM</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="UpdateController" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <input asp-for="Id" type="hidden" class="form-control" />
+                    <label asp-for="ControllerName" class="control-label"></label>
+                    <input asp-for="ControllerName" class="form-control" />
+                    <span asp-validation-for="ControllerName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>
+
+
