@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace BlogPageMvc.Models.Controller
 {
-    public class ControllerVM
+    public class ControllerActionVM
     {
         public int Id { get; set; }
         [Required]
-        public string ControllerName { get; set; }
-        public List<ControllerActionVM> ControllerActions { get; set; }
+        public string ActionName { get; set; }
+        public int ControllerId { get; set; }
+        public ControllerVM Controller { get; set; }
     }
 }

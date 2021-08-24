@@ -1,0 +1,38 @@
+﻿@model BlogPageMvc.Models.Controller.ControllerVM
+
+@{
+    ViewData["Title"] = "ControllerDetail";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container">
+
+    <h1>GetAllController</h1>
+
+    <p>
+        <a asp-action="AddAction" asp-route-ControllerId="@Model.Id">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ControllerName)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ControllerActions)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActionName)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Update", "UpdateAction", new { controllername = item.ActionName }) |
+                        @Html.ActionLink("Delete", "DeleteAction", new { controllername = item.ActionName })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

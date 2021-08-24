@@ -1,4 +1,5 @@
-﻿using BlogPageMvc.Models.Controller;
+﻿using BlogPageMvc.Models;
+using BlogPageMvc.Models.Controller;
 using BlogPageMvc.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -97,8 +98,29 @@ namespace BlogPageMvc.Controllers
 
         public async Task<IActionResult> ControllerDetail(int id)
         {
-          
+            var data = await _adminService.GetControllerWithActions(id);
+            return View(data.Data);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddAction(int ControllerId)
+        {
+            ViewBag.ControllerId = ControllerId;
             return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddAction(ControllerActionVM actionVM)
+        {
+            var response = await _adminService.AddAction(actionVM);
+            if (response.ErrorMessage != null)
+            {
+                ModelState.AddModelError("hata", response.ErrorMessage);
+                return View(actionVM);
+            }
+            else
+            {
+                return RedirectToAction($"ControllerDetail/{actionVM.ControllerId}");
+            }
         }
     }
 }

@@ -70,5 +70,27 @@ namespace BlogPageMvc.Service.Concrete
             }
             return null;
         }
+        public async Task<GenericResponse<ControllerVM>> GetControllerWithActions(int id)
+        {
+            //CreateAuthenticationHeader.CreateHttpClientHeader(_httpClient, _httpContextAccessor);
+            var responseMessage = await _httpClient.GetAsync($"GetControllerWithActions/id?id={id}");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<GenericResponse<ControllerVM>>(await responseMessage.Content.ReadAsStringAsync());
+            }
+            return null;
+        }
+        public async Task<GenericResponse<ControllerActionVM>> AddAction(ControllerActionVM controllerAction)
+        {
+            var json = JsonConvert.SerializeObject(controllerAction);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("AddAction", data);
+            if (response.IsSuccessStatusCode)
+            {
+                var result = JsonConvert.DeserializeObject<GenericResponse<ControllerActionVM>>(await response.Content.ReadAsStringAsync());
+                return result;
+            }
+            return null;
+        }
     }
 }
