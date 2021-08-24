@@ -29,7 +29,7 @@
                     </td>
                     <td>
                         @Html.ActionLink("Update", "UpdateAction", new { controllername = item.ActionName }) |
-                        @Html.ActionLink("Delete", "DeleteAction", new { controllername = item.ActionName })
+                        @Html.ActionLink("Delete", "DeleteAction", new { id = item.Id })
                     </td>
                 </tr>
             }

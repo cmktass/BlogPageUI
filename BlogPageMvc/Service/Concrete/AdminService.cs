@@ -92,5 +92,25 @@ namespace BlogPageMvc.Service.Concrete
             }
             return null;
         }
+        public async Task<GenericResponse<ControllerActionVM>> GetActionById(int id)
+        {
+            //CreateAuthenticationHeader.CreateHttpClientHeader(_httpClient, _httpContextAccessor);
+            var responseMessage = await _httpClient.GetAsync($"GetAction/id?id={id}");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<GenericResponse<ControllerActionVM>>(await responseMessage.Content.ReadAsStringAsync());
+            }
+            return null;
+        }
+        public async Task<GenericResponse<int>> DeleteAction(int id)
+        {
+            //CreateAuthenticationHeader.CreateHttpClientHeader(_httpClient, _httpContextAccessor);
+            var responseMessage = await _httpClient.DeleteAsync($"DeleteAction/id?id={id}");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<GenericResponse<int>>(await responseMessage.Content.ReadAsStringAsync());
+            }
+            return null;
+        }
     }
 }

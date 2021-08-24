@@ -16,5 +16,7 @@ namespace BlogPageMvc.Service.Interface
         Task<GenericResponse<int>> DeleteController(int id);
         Task<GenericResponse<ControllerVM>> GetControllerWithActions(int id);
         Task<GenericResponse<ControllerActionVM>> AddAction(ControllerActionVM controllerAction);
+        Task<GenericResponse<ControllerActionVM>> GetActionById(int id);
+        Task<GenericResponse<int>> DeleteAction(int id);
     }
 }

@@ -47,7 +47,7 @@ namespace BlogPageMvc.Controllers
                 }
                 else
                 {
-                    return View();
+                    return RedirectToAction("GetAllController");
                 }
             }
             return View(controllerVM);
@@ -119,8 +119,25 @@ namespace BlogPageMvc.Controllers
             }
             else
             {
-                return RedirectToAction($"ControllerDetail/{actionVM.ControllerId}");
+                return RedirectToAction("ControllerDetail", new { id = actionVM.ControllerId });
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteAction(int id)
+        {
+            var response = await _adminService.GetActionById(id);
+            return View(response.Data);
+        }
+        
+        public async Task<IActionResult> DeleteActionId(int id)
+        {
+            var response = await _adminService.DeleteAction(id);
+            if (response.ErrorMessage == null)
+            {
+                return RedirectToAction("GetAllController");
+            }
+            return View(response.Data);
         }
     }
 }
