@@ -1,5 +1,6 @@
 ﻿using BlogPageMvc.Models;
 using BlogPageMvc.Models.Controller;
+using BlogPageMvc.Models.Role;
 using BlogPageMvc.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -111,16 +112,21 @@ namespace BlogPageMvc.Controllers
         [HttpPost]
         public async Task<IActionResult> AddAction(ControllerActionVM actionVM)
         {
-            var response = await _adminService.AddAction(actionVM);
-            if (response.ErrorMessage != null)
+            if (ModelState.IsValid)
             {
-                ModelState.AddModelError("hata", response.ErrorMessage);
-                return View(actionVM);
+                var response = await _adminService.AddAction(actionVM);
+                if (response.ErrorMessage != null)
+                {
+                    ModelState.AddModelError("hata", response.ErrorMessage);
+                    return View(actionVM);
+                }
+                else
+                {
+                    return RedirectToAction("ControllerDetail", new { id = actionVM.ControllerId });
+                }
             }
-            else
-            {
-                return RedirectToAction("ControllerDetail", new { id = actionVM.ControllerId });
-            }
+            return View(actionVM);
+           
         }
 
         [HttpGet]
@@ -139,5 +145,86 @@ namespace BlogPageMvc.Controllers
             }
             return View(response.Data);
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> AddRole()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddRole(RoleVM roleVM)
+        {
+            
+            if (ModelState.IsValid)
+            {
+                var response = await _adminService.AddRole(roleVM);
+                if (response.ErrorMessage != null)
+                {
+                    ModelState.AddModelError("hata", response.ErrorMessage);
+                }
+                else
+                {
+                    return RedirectToAction("GetAllRoles");
+                }
+            }
+            return View(roleVM);
+        }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllRoles()
+        {
+            return View(await _adminService.GetRoles());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteRole(int id)
+        {
+            var response = await _adminService.GetRoleById(id);
+            return View(response.Data);
+        }
+        [HttpGet]
+        public async Task<IActionResult> DeleteRoleId(int id)
+        {
+            var response = await _adminService.DeleteRoleId(id);
+            if (response?.ErrorMessage == null)
+            {
+                return RedirectToAction("GetAllRoles");
+            }
+            return View(response.Data);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UpdateRole(int id)
+        {
+            var response = await _adminService.GetRoleById(id);
+            return View(response.Data);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateRole(RoleVM roleVM)
+        {
+            var response = await _adminService.UpdateRole(roleVM);
+            if (ModelState.IsValid)
+            {
+                if (response.ErrorMessage == null)
+                {
+                    return RedirectToAction("GetAllRoles");
+                }
+                else
+                {
+                    ModelState.AddModelError("hata", response.ErrorMessage);
+                    return View(roleVM);
+                }
+
+
+            }
+            return View(roleVM);
+        }
+
+
+
     }
 }

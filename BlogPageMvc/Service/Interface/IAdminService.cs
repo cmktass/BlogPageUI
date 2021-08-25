@@ -1,5 +1,6 @@
 ﻿using BlogPageMvc.Models;
 using BlogPageMvc.Models.Controller;
+using BlogPageMvc.Models.Role;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,11 @@ namespace BlogPageMvc.Service.Interface
         Task<GenericResponse<ControllerActionVM>> AddAction(ControllerActionVM controllerAction);
         Task<GenericResponse<ControllerActionVM>> GetActionById(int id);
         Task<GenericResponse<int>> DeleteAction(int id);
+        Task<List<RoleVM>> GetRoles();
+        Task<GenericResponse<RoleVM>> GetRoleById(int id);
+        Task<GenericResponse<RoleVM>> AddRole(RoleVM roleVM);
+        Task<GenericResponse<RoleVM>> UpdateRole(RoleVM roleVM);
+        Task<GenericResponse<int>> DeleteRoleId(int id);
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using BlogPageMvc.Models;
 using BlogPageMvc.Models.Category;
 using BlogPageMvc.Models.Controller;
+using BlogPageMvc.Models.Role;
 using BlogPageMvc.Service.Interface;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -106,6 +107,59 @@ namespace BlogPageMvc.Service.Concrete
         {
             //CreateAuthenticationHeader.CreateHttpClientHeader(_httpClient, _httpContextAccessor);
             var responseMessage = await _httpClient.DeleteAsync($"DeleteAction/id?id={id}");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<GenericResponse<int>>(await responseMessage.Content.ReadAsStringAsync());
+            }
+            return null;
+        }
+
+        public async Task<GenericResponse<RoleVM>> AddRole(RoleVM roleVM)
+        {
+            var json = JsonConvert.SerializeObject(roleVM);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("AddRole", data);
+            if (response.IsSuccessStatusCode)
+            {
+                var result = JsonConvert.DeserializeObject<GenericResponse<RoleVM>>(await response.Content.ReadAsStringAsync());
+                return result;
+            }
+            return null;
+        }
+
+        public async Task<List<RoleVM>> GetRoles()
+        {
+            var responseMessage = await _httpClient.GetAsync("GetAllRoles");
+            return JsonConvert.DeserializeObject<List<RoleVM>>(await responseMessage.Content.ReadAsStringAsync());
+        }
+        public async Task<GenericResponse<RoleVM>> GetRoleById(int id)
+        {
+            //CreateAuthenticationHeader.CreateHttpClientHeader(_httpClient, _httpContextAccessor);
+            var responseMessage = await _httpClient.GetAsync($"GetRole/id?id={id}");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<GenericResponse<RoleVM>>(await responseMessage.Content.ReadAsStringAsync());
+            }
+            return null;
+        }
+
+        public async Task<GenericResponse<RoleVM>> UpdateRole(RoleVM roleVM)
+        {
+            var json = JsonConvert.SerializeObject(roleVM);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            //CreateAuthenticationHeader.CreateHttpClientHeader(_httpClient, _httpContextAccessor);
+            var responseMessage = await _httpClient.PutAsync("UpdateRole", data);
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<GenericResponse<RoleVM>>(await responseMessage.Content.ReadAsStringAsync());
+            }
+            return null;
+        }
+
+        public async Task<GenericResponse<int>> DeleteRoleId(int id)
+        {
+            //CreateAuthenticationHeader.CreateHttpClientHeader(_httpClient, _httpContextAccessor);
+            var responseMessage = await _httpClient.DeleteAsync($"DeleteRole/id?id={id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 return JsonConvert.DeserializeObject<GenericResponse<int>>(await responseMessage.Content.ReadAsStringAsync());
